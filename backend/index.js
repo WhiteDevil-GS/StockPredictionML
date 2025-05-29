@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://stock-market-prediction-theta.vercel.app",
+      "https://stock-prediction-ml-1cwr.vercel.app/",
       "http://localhost:3000",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
