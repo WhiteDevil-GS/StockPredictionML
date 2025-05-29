@@ -33,7 +33,7 @@ const NewsPage = () => {
           localStorage.removeItem("newsDataDate"); // Remove stored date
         }
 
-        const response = await fetch("http://localhost:3001/getnews", {
+        const response = await fetch("https://stockpredictionml-2lof.onrender.com/getnews", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
