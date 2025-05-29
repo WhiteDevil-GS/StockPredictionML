@@ -27,7 +27,7 @@ const StockDataApp = () => {
         setLoading(true); // Set loading to true before fetching data
         console.log("Fetching stock data...");
 
-        const response = await fetch("http://localhost:3001/getStockData", {
+        const response = await fetch("https://stockpredictionml-2lof.onrender.com/getStockData", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
