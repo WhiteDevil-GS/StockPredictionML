@@ -23,7 +23,7 @@ const PredictStockPage = () => {
     try {
       setLoading(true);
       const predictionResponse = await fetch(
-        `http://localhost:3001/predictstock/${startDate}/${endDate}/${stockSymbol}`,
+        `https://stockpredictionml-2lof.onrender.com/predictstock/${startDate}/${endDate}/${stockSymbol}`,
         {
           method: "POST",
           headers: {
