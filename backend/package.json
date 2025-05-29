@@ -1,9 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for Stock Market Prediction App",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -22,6 +24,7 @@
     "python-shell": "^5.0.0",
     "twilio": "^4.21.0",
     "yahoo-finance": "^0.3.8",
+    "yahoo-finance2": "^2.13.3",
     "yfinance": "^0.0.6"
   }
 }

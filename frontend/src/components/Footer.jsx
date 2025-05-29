@@ -1,20 +1,18 @@
 import React from "react";
-import { FaLinkedinIn } from "react-icons/fa";
+
 const Footer = () => {
   return (
-    <footer className="flex justify-center bg-cyan-500 bottom-0 fixed w-full">
-      <div>
-        <a
-          href="https://www.linkedin.com/in/parth-thakkar-5b4946230/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className=""
-        >
-          <p className="flex items-center p-2 ">
-            <FaLinkedinIn size={20} className="flex mx-2" />
-            Made by<b className="ml-1 font-sans">Parth Thakkar</b>😎
-          </p>
-        </a>
+    <footer className="flex justify-center bg-cyan-500 fixed bottom-0 w-full p-4"> {/* Adjusted padding */}
+      <div className="text-center text-white">
+        <p className="text-sm font-semibold"> {/* Reduced text size */}
+          <span className="font-extrabold text-yellow-400">Team Devils</span> | Created by <b>Ganesh Soppin</b>
+        </p>
+        <p className="text-xs mt-1"> {/* Reduced text size */}
+          <span>Contact:</span> <a href="tel:+yourphonenumber" className="hover:text-yellow-400">gswhitedevil@gmail.com</a>
+        </p>
+        <p className="text-xxl mt-1"> {/* Reduced text size */}
+          &copy; {new Date().getFullYear()} Code Devils. All rights reserved.
+        </p>
       </div>
     </footer>
   );

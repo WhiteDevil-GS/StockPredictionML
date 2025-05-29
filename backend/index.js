@@ -17,31 +17,49 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 // app.use(cors());
-app.use(cors({
-  origin: 'https://stock-market-prediction-theta.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "https://stock-market-prediction-theta.vercel.app",
+      "http://localhost:3000",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 
 app.get("/", (req, res) => {
   res.send("app is working..");
 });
 
-app.post("/getStockData", async (req, res) => {
-  try {
-    const { stockSymbol, startDate, endDate } = req.body;
+const yahooFinance = require("yahoo-finance2").default;
 
-    const df = await yfinance.historical({
-      symbols: [stockSymbol],
-      from: startDate,
-      to: endDate,
+app.post("/getStockData", async (req, res) => {
+  const { stockSymbol, startDate, endDate } = req.body;
+
+  if (!stockSymbol || !startDate || !endDate) {
+    return res.status(400).json({ error: "Missing required parameters" });
+  }
+
+  try {
+    const result = await yahooFinance.historical(stockSymbol, {
+      period1: new Date(startDate),
+      period2: new Date(endDate),
     });
-    res.json({ success: true, data: df });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: "Internal Server Error" });
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ error: "No data found" });
+    }
+
+    res.status(200).json({ success: true, data: result });
+  } catch (err) {
+    console.error("Error fetching stock data:", err.message);
+    res.status(500).json({ error: "Failed to fetch stock data" });
   }
 });
+
+
 
 app.post("/getnewsrapidapi", async (req, res) => {
   const axios = require("axios");
@@ -90,6 +108,7 @@ app.post("/getnews", async (req, res) => {
 
 app.post("/predictstock/:startdate/:enddate/:stocksymbol", async (req, res) => {
   // const { startDate, endDate, stockSymbol } = req.params;
+  console.log(req.params)
   const startDate = req.params.startdate;
   const endDate = req.params.enddate;
   const stockSymbol = req.params.stocksymbol;
