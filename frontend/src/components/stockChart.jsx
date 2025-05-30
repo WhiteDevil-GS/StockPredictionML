@@ -3,37 +3,42 @@ import Chart from 'chart.js/auto';
 import { formatDateString } from './DateInput';
 // import { Link } from 'react-router-dom';
 
-
-const StockChart = ({ stockData=[], startDate=[], endDate=[], selectedStock=[], predictedData=[]}) => {
+const StockChart = ({
+  stockData = [],
+  startDate = [],
+  endDate = [],
+  selectedStock = [],
+  predictedData = []
+}) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     let myChart = null;
 
-    if (chartRef.current && stockData) {
+    if (chartRef.current && stockData.length > 0) {
       const ctx = chartRef.current.getContext('2d');
 
-      // Destroy existing chart if it exists
       if (myChart) {
         myChart.destroy();
       }
 
-      const dates = stockData.map((item) => formatDateString(item.date)).reverse(); // Reverse the order
-      // console.log("dates: ",dates);
+      const dates = stockData.map((item) => formatDateString(item.date)).reverse();
       const highs = stockData.map((item) => item.high).reverse();
       const closes = stockData.map((item) => item.close).reverse();
       const opens = stockData.map((item) => item.open).reverse();
+
       const predictedHigh = predictedData.map((item) => {
-        if(typeof item[0]== "number"){
+        if (typeof item[0] === "number") {
           return item[0].toFixed(2);
         }
         return null;
       });
-      
+
       const convertedPredictedHigh = predictedHigh
         .map(value => (value !== undefined ? parseFloat(value) : undefined))
         .filter(value => value !== undefined);
-      const datesPredicted=[];
+
+      const datesPredicted = [];
       for (let i = 1; i <= convertedPredictedHigh.length; i++) {
         datesPredicted.push(i.toString());
       }
@@ -41,11 +46,11 @@ const StockChart = ({ stockData=[], startDate=[], endDate=[], selectedStock=[], 
       myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: [...dates , ...datesPredicted],
+          labels: [...dates, ...datesPredicted],
           datasets: [
             {
               label: 'High',
-              data: [...highs , null],
+              data: [...highs, null],
               borderColor: 'rgba(75, 192, 192, 1)',
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
             },
@@ -59,13 +64,6 @@ const StockChart = ({ stockData=[], startDate=[], endDate=[], selectedStock=[], 
                   },
                 ]
               : []),
-            // {
-            //   label: 'Predicted',
-            //   data: [...Array(highs.length).fill(null) , ...predictedHigh],
-            //   borderColor: 'rgba(0, 128, 0, 1)',
-            //   backgroundColor: 'rgba(0, 128, 0, 0.2)',
-            // },
-            
             {
               label: 'Close',
               data: closes,
@@ -83,24 +81,18 @@ const StockChart = ({ stockData=[], startDate=[], endDate=[], selectedStock=[], 
       });
     }
 
-    // Cleanup the chart on component unmount
     return () => {
       if (myChart) {
         myChart.destroy();
       }
     };
-  }, [stockData,predictedData]);
-
-  
+  }, [stockData, predictedData]);
 
   return (
-    <div>
-      <canvas ref={chartRef} className='py-10' />
+    <div className="pb-40"> {/* Ensures space at the bottom below the chart */}
+      <canvas ref={chartRef} className="py-10" />
     </div>
   );
 };
-
-
-
 
 export default StockChart;
